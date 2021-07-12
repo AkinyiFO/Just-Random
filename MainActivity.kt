@@ -32,10 +32,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var start: EditText
     lateinit var end: EditText
     lateinit var numberOfOutcomes: EditText
-    lateinit var generatorButton: Button
     lateinit var resultText: TextView
-    lateinit var copyValuesButton: ImageButton
-    lateinit var clearButton: Button
     lateinit var star: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,16 +40,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Initializes the lateinit variables
-        generatorButton = findViewById(R.id.generator_button)
         resultText = findViewById(R.id.result_text)
-        copyValuesButton = findViewById(R.id.action_copy_button)
-        clearButton = findViewById(R.id.clear_button)
         start = findViewById(R.id.start)
         end = findViewById(R.id.end)
         numberOfOutcomes = findViewById(R.id.number_of_outcomes)
         star = findViewById(R.id.star)
 
-        //What happens when Button gets clicked
+        //Declares and initializes the Generate Button
+        val generatorButton: Button = findViewById(R.id.generator_button)
+        //What happens when Generate Button gets clicked
         generatorButton.setOnClickListener {
             generateNumbers()
             showerAnimation()
@@ -60,9 +56,13 @@ class MainActivity : AppCompatActivity() {
             reset()
         }
 
+        //Declares and initializes the Copy ImageButton
+        val copyValuesButton: ImageButton = findViewById(R.id.action_copy_button)
         //What happens when ImageButton gets clicked
         copyValuesButton.setOnClickListener { copyToClipboard() }
 
+       //Declares and initializes the Clear Button
+        val clearButton: Button = findViewById(R.id.clear_button)
         //What happens when clearButton gets clicked
         clearButton.setOnClickListener { clearViews() }
     }
