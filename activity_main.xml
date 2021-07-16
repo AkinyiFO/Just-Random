@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -21,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             card_view:cardBackgroundColor="@color/cardView"
             card_view:cardCornerRadius="24dp">
 
@@ -116,15 +118,14 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            card_view:cardBackgroundColor="@color/white"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardBackgroundColor="@color/background"
+            card_view:cardCornerRadius="24dp">
 
             <ImageView
                 android:id="@+id/star"
@@ -132,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:accessibilityLiveRegion="none"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_baseline_star_24" />
         </androidx.cardview.widget.CardView>
 
@@ -143,7 +144,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             card_view:cardBackgroundColor="@color/cardView"
-            card_view:cardCornerRadius="8dp">
+            card_view:cardCornerRadius="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -182,3 +183,4 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>
+</layout>
