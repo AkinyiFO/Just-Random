@@ -20,7 +20,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import kotlin.random.Random
 
-
+/**
+ * Just Random Generates random numbers of given sample size
+ * and range. It also allows users to copy the generated result.
+ */
 class MainActivity : AppCompatActivity() {
     //Used in Menu item to redirect to app store
     private val APP_PROJECT_NAME = "com.simpleapps22.justrandom"
@@ -29,16 +32,23 @@ class MainActivity : AppCompatActivity() {
     lateinit var start: EditText
     lateinit var end: EditText
     lateinit var numberOfOutcomes: EditText
-    lateinit var generatorButton: Button
     lateinit var resultText: TextView
+    lateinit var star: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Initializes the lateinit variable for Button
-        generatorButton = findViewById(R.id.generator_button)
-        //What happens when Button gets clicked
+        //Initializes the lateinit variables
+        resultText = findViewById(R.id.result_text)
+        start = findViewById(R.id.start)
+        end = findViewById(R.id.end)
+        numberOfOutcomes = findViewById(R.id.number_of_outcomes)
+        star = findViewById(R.id.star)
+
+        //Declares and initializes the Generate Button
+        val generatorButton: Button = findViewById(R.id.generator_button)
+        //What happens when Generate Button gets clicked
         generatorButton.setOnClickListener {
             generateNumbers()
             showerAnimation()
@@ -46,23 +56,13 @@ class MainActivity : AppCompatActivity() {
             reset()
         }
 
-        //Initializes lateinit variable for TextView
-        resultText = findViewById(R.id.result_text)
-
-        //Declares and initializes ImageButton
+        //Declares and initializes the Copy ImageButton
         val copyValuesButton: ImageButton = findViewById(R.id.action_copy_button)
-
         //What happens when ImageButton gets clicked
         copyValuesButton.setOnClickListener { copyToClipboard() }
 
-        //Declares and initializes Button
+       //Declares and initializes the Clear Button
         val clearButton: Button = findViewById(R.id.clear_button)
-
-        //Initialize the lateinit EditViews
-        start = findViewById(R.id.start)
-        end = findViewById(R.id.end)
-        numberOfOutcomes = findViewById(R.id.number_of_outcomes)
-
         //What happens when clearButton gets clicked
         clearButton.setOnClickListener { clearViews() }
     }
@@ -156,7 +156,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showerAnimation() {
-        val star: ImageView = findViewById(R.id.star)
         //Reference to the parent of current star
         val container = star.parent as ViewGroup
         //Width and height of the container
