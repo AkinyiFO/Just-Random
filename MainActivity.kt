@@ -18,6 +18,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.databinding.DataBindingUtil
+import com.simpleapps22.justrandom.databinding.ActivityMainBinding
 import kotlin.random.Random
 
 /**
@@ -28,84 +30,72 @@ class MainActivity : AppCompatActivity() {
     //Used in Menu item to redirect to app store
     private val APP_PROJECT_NAME = "com.simpleapps22.justrandom"
 
-    //lateinit variables used within the app
-    lateinit var start: EditText
-    lateinit var end: EditText
-    lateinit var numberOfOutcomes: EditText
-    lateinit var resultText: TextView
-    lateinit var star: ImageView
+    //Reference to the binding object
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //Uses the setContentView() function from the DataBindingUtil class
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        //Initializes the lateinit variables
-        resultText = findViewById(R.id.result_text)
-        start = findViewById(R.id.start)
-        end = findViewById(R.id.end)
-        numberOfOutcomes = findViewById(R.id.number_of_outcomes)
-        star = findViewById(R.id.star)
+        binding.apply{
+            //What happens when Generate Button gets clicked
+            generatorButton.setOnClickListener {
+                generateNumbers()
+                showerAnimation()
+                hideKeyboard()
+                reset()
+            }
 
-        //Declares and initializes the Generate Button
-        val generatorButton: Button = findViewById(R.id.generator_button)
-        //What happens when Generate Button gets clicked
-        generatorButton.setOnClickListener {
-            generateNumbers()
-            showerAnimation()
-            hideKeyboard()
-            reset()
+            //What happens when ImageButton gets clicked
+            actionCopyButton.setOnClickListener { copyToClipboard() }
+
+            //What happens when clearButton gets clicked
+            clearButton.setOnClickListener { clearViews() }
         }
-
-        //Declares and initializes the Copy ImageButton
-        val copyValuesButton: ImageButton = findViewById(R.id.action_copy_button)
-        //What happens when ImageButton gets clicked
-        copyValuesButton.setOnClickListener { copyToClipboard() }
-
-       //Declares and initializes the Clear Button
-        val clearButton: Button = findViewById(R.id.clear_button)
-        //What happens when clearButton gets clicked
-        clearButton.setOnClickListener { clearViews() }
     }
 
     //The number generator
     private fun generateNumbers() {
-        //Convert EditText value to String
-        val stringRangeFrom = start.text.toString()
-        val stringRangeTo = end.text.toString()
-        val stringRepeat = numberOfOutcomes.text.toString()
+        binding.apply {
+            //Convert EditText value to String
+            val stringRangeFrom = start.text.toString()
+            val stringRangeTo = end.text.toString()
+            val stringRepeat = numberOfOutcomes.text.toString()
 
-        //Handles errors
-        if (stringRangeFrom.equals("") || stringRangeTo.equals("")) {
-            start.setError("Invalid Range")
-            end.setError("Invalid Range")
-        } else if (stringRepeat.equals("")) {
-            numberOfOutcomes.setError("Enter Number")
-        } else {
-            start.setError(null)
-            end.setError(null)
-            numberOfOutcomes.setError(null)
-
-            //Convert EditText value to int
-            val rangeFrom = stringRangeFrom.toInt()
-            val rangeTo = stringRangeTo.toInt()
-            val repeatInt = stringRepeat.toInt()
-
-            //Handle errors
-            if (rangeTo < rangeFrom) {
+            //Handles errors
+            if (stringRangeFrom.equals("") || stringRangeTo.equals("")) {
                 start.setError("Invalid Range")
                 end.setError("Invalid Range")
-            } else if (rangeTo < repeatInt) {
-                numberOfOutcomes.setError("Number Cannot be Greater Than Outer Bound")
+            } else if (stringRepeat.equals("")) {
+                numberOfOutcomes.setError("Enter Number")
             } else {
                 start.setError(null)
                 end.setError(null)
                 numberOfOutcomes.setError(null)
 
-                //Generate random numbers as a List
-                val randomList = List(repeatInt) { Random.nextInt(rangeFrom, rangeTo) }
+                //Convert EditText value to int
+                val rangeFrom = stringRangeFrom.toInt()
+                val rangeTo = stringRangeTo.toInt()
+                val repeatInt = stringRepeat.toInt()
 
-                //Display the numbers in TextView as String values with a separator using joinToString
-                resultText.text = randomList.joinToString(separator = ", ")
+                //Handle errors
+                if (rangeTo < rangeFrom) {
+                    start.setError("Invalid Range")
+                    end.setError("Invalid Range")
+                } else if (rangeTo < repeatInt) {
+                    numberOfOutcomes.setError("Number Cannot be Greater Than Outer Bound")
+                } else {
+                    start.setError(null)
+                    end.setError(null)
+                    numberOfOutcomes.setError(null)
+
+                    //Generate random numbers as a List
+                    val randomList = List(repeatInt) { Random.nextInt(rangeFrom, rangeTo) }
+
+                    //Display the numbers in TextView as String values with a separator using joinToString
+                    resultText.text = randomList.joinToString(separator = ", ")
+                }
             }
         }
     }
@@ -120,26 +110,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun reset() {
-        start.clearFocus()
-        end.clearFocus()
-        numberOfOutcomes.clearFocus()
+        binding.apply {
+            start.clearFocus()
+            end.clearFocus()
+            numberOfOutcomes.clearFocus()
+        }
     }
 
     private fun copyToClipboard() {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.text = resultText.getText()
+        clipboard.text = binding.resultText.getText()
         Toast.makeText(this, "Copied to Clipboard", Toast.LENGTH_LONG).show()
     }
 
     private fun clearViews() {
         clearForm(findViewById<View>(R.id.linear_layout) as ViewGroup)
-        start.setText("")
-        start.setError(null)
-        end.setText("")
-        end.setError(null)
-        numberOfOutcomes.setText("")
-        numberOfOutcomes.setError(null)
-        resultText.setText(getString(R.string.click_button_to_generate_number))
+        binding.apply {
+            start.setText("")
+            start.setError(null)
+            end.setText("")
+            end.setError(null)
+            numberOfOutcomes.setText("")
+            numberOfOutcomes.setError(null)
+            resultText.setText(getString(R.string.click_button_to_generate_number))
+        }
     }
 
     private fun clearForm(group: ViewGroup) {
@@ -157,13 +151,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun showerAnimation() {
         //Reference to the parent of current star
-        val container = star.parent as ViewGroup
+        val container = binding.star.parent as ViewGroup
         //Width and height of the container
         val containerW = container.width
         val containerH = container.height
         //Default width and height of star
-        var starW: Float = star.width.toFloat()
-        var starH: Float = star.height.toFloat()
+        var starW: Float = binding.star.width.toFloat()
+        var starH: Float = binding.star.height.toFloat()
 
         //View holding the star graphic is AppCompatImageView
         // because the star is a VectorDrawable asset
