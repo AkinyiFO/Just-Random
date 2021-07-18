@@ -8,6 +8,8 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -83,7 +85,10 @@ class MainActivity : AppCompatActivity() {
                 if (rangeTo < rangeFrom) {
                     start.setError("Invalid Range")
                     end.setError("Invalid Range")
-                } else if (rangeTo < repeatInt) {
+                } else if(rangeFrom == rangeTo){
+                    start.setError("Invalid Range")
+                    end.setError("Invalid Range")
+                }else if (rangeTo < repeatInt) {
                     numberOfOutcomes.setError("Number Cannot be Greater Than Outer Bound")
                 } else {
                     start.setError(null)
