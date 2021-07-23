@@ -28,9 +28,11 @@ import kotlin.random.Random
  * Just Random Generates random numbers of given sample size
  * and range. It also allows users to copy the generated result.
  */
+
+const val APP_PROJECT_NAME = "com.simpleapps22.justrandom"
+
 class MainActivity : AppCompatActivity() {
     //Used in Menu item to redirect to app store
-    private val APP_PROJECT_NAME = "com.simpleapps22.justrandom"
 
     //Reference to the binding object
     private lateinit var binding: ActivityMainBinding
